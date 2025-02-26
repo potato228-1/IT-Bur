@@ -1,0 +1,5 @@
+PUT https://webcomp.bsu.ru/api/2025/bids/add HTTP/1.1
+content-type: application/json
+Authorization: Bearer <TOKEN>
+
+{"amount":1,"project_id":10}
