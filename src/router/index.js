@@ -10,6 +10,7 @@ import MyLayout from "./pages/MyLayout.vue";
 import AdminCabinet from "./pages/admin/AdminCabinet.vue";
 import AdminMarks from "./pages/admin/AdminMarks.vue";
 import EditProfile from "./pages/admin/EditProfile.vue";
+import AuctionPromo from "./pages/AuctionPromo.vue";
 
 import store from "@/store";
 
@@ -17,11 +18,20 @@ export default VueRouter.createRouter({
 	history: VueRouter.createWebHistory(),
 	routes: [
 		{
+
+
 			path: "/",
 			name: "myLayout",
 			component: MyLayout,
 			children: [
+				{   path: "/AuctionPromo",
+					name: "AuctionPromo",
+					component: AuctionPromo,
+				},
+
 				{
+					
+
 					path: "",
 					name: "mainPage",
 					component: MainPage,
