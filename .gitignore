@@ -28,3 +28,8 @@ coverage
 *.sw?
 
 *.tsbuildinfo
+
+# Unnecessary trash
+*.rar
+*.zip
+2025_stage_1_query
