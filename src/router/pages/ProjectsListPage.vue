@@ -1,14 +1,40 @@
 <template>
-    <ProjectList :fullList="true"/>
+	<ProjectList :projectItems="projectItems" :isPage="true" showAll="true" />
 </template>
 
 <script>
-import ProjectList from '@/components/ProjectList.vue';
+    import axios from "axios"
+	import ProjectList from "@/components/projectsList/ProjectList.vue";
 
-export default {
-    name: 'ProjectsListPage',
-    components: {    
-    ProjectList
-}
-}
+	export default {
+		name: "ProjectsListPage",
+
+		components: {
+			ProjectList,
+		},
+
+		data() {
+			return {
+				projectItems: [],
+			};
+		},
+
+		methods: {
+			async loadProjects() {
+				try {
+					const response = await axios.get(
+						"https://webcomp.bsu.ru/api/allProjects"
+					);
+					const data = await response.data.data;
+					this.projectItems = data;
+				} catch (error) {
+					console.error("Error fetching projects : ", error);
+				}
+			},
+		},
+
+		mounted() {
+			this.loadProjects();
+		},
+	};
 </script>

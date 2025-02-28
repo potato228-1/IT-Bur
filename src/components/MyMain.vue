@@ -48,12 +48,13 @@
 			</div>
 		</div>
 	</section>
-	<ProjectList :projectItems="projectItems" />
+
+	<ProjectList :projectItems="projectItems" :showAll="false" />
 </template>
 <script>
+	import axios from "axios";
 	import MyPromo from "@/components/MyPromo.vue";
-	import ProjectList from "@/components/ProjectList.vue";
-    import axios from "axios"
+	import ProjectList from "@/components/projectsList/ProjectList.vue";
 
 	export default {
 		name: "MyMain",
@@ -63,30 +64,32 @@
 		},
 
 		components: {
-            MyPromo,
-            ProjectList,
-        },
+			MyPromo,
+			ProjectList,
+		},
 
-        data(){
-            return{
-                projectItems: [],
-            }
-        },
+		data() {
+			return {
+				projectItems: [],
+			};
+		},
 
-        methods: {
-            async loadProjects() {
-                try{
-                    const response = await axios.get("https://webcomp.bsu.ru/api/allProjects")
-                    const data = await response.data
-                    this.projectItems = data
-                } catch(error){
-                    console.log("Error fetching projects : ", error)
-                }
-            },
-        },
+		methods: {
+			async loadProjects() {
+				try {
+					const response = await axios.get(
+						"https://webcomp.bsu.ru/api/allProjects"
+					);
+					const data = await response.data.data;
+					this.projectItems = data;
+				} catch (error) {
+					console.error("Error fetching projects : ", error);
+				}
+			},
+		},
 
-        mounted(){
-            this.loadProjects()
-        }
+		mounted() {
+			this.loadProjects();
+		},
 	};
 </script>
