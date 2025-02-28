@@ -1,43 +1,48 @@
 <template>
-
-    <h2>Уважаемый посетители вы можете поучаствовать в аукционе проектов.
-       Для этого пройдите по ссылке ниже.
-        Внимание: участие только для авторизованных пользователей.</h2>
-    
-    <div v-if="!isAuthenticated">
+    <div class="container text-center mt-5">
+      <h2 class="mb-4">
+        Уважаемые посетители, вы можете поучаствовать в аукционе проектов.
+        Для этого пройдите по ссылке ниже.
+        <br />
+        <strong>Внимание: участие только для авторизованных пользователей.</strong>
+      </h2>
   
-      <img src="/img/banner.jpg" alt="Баннер" class="banner">
+      <div v-if="!isAuthenticated">
+        <img src="/img/banner.jpg" alt="Баннер" class="img-fluid mb-4" />
+        <p class="lead">Пожалуйста, войдите, чтобы участвовать в аукционе.</p>
+        <router-link to="/Login" class="btn btn-primary">Войти</router-link>
+      </div>
+  
+      <div v-else>
+        <h3 class="mb-4">Ваши последние 5 ставок:</h3>
+    
+        <router-link to="/Auction" class="btn btn-success">Посмотреть аукцион</router-link>
+      </div>
     </div>
-    <div v-else>
-      5 ласт ставок
-  </div>
-  <div v-if="!isAuthenticated">
-      <router-link to="/Login">Войти</router-link>
-  </div>
-  <div v-else>
-      <router-link to="/Auction">Посмотреть аукцион</router-link>
-  </div>
-
-</template>
-
-<script>
-import { reactive, toRefs } from 'vue'
-import store from '@/store';
-
-export default {
-  setup () {
+  </template>
+  
+  <script>
+  import { reactive, toRefs } from 'vue'
+  import store from '@/store';
+  
+  export default {
+    setup() {
       const state = reactive({
-          count: 0,
-          isAuthenticated: store.getters.getLogged
+        isAuthenticated: store.getters.getLogged
       })
   
       return {
-          ...toRefs(state),
+        ...toRefs(state),
       }
+    }
   }
-}
-</script>
+  </script>
+  
+  <style lang="scss" scoped>
 
-<style lang="scss" scoped>
-
-</style>
+  .banner {
+    max-width: 100%;
+    height: auto;
+  }
+  </style>
+  
