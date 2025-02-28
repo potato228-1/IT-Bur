@@ -1,5 +1,0 @@
-POST https://webcomp.bsu.ru/sanctum/token HTTP/1.1
-Accept: application/json
-Content-type: application/json
-
-{"email":"<Login>","password":"<Passwd>","device_name":"cowPhone"}
