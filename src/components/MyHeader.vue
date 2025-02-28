@@ -53,10 +53,11 @@
 		</div>
 	</header>
 </template>
+
 <script>
 	export default {
 		name: "MyHeader",
-        
+
 		data() {
 			return {
 				menuItems: [
@@ -97,3 +98,9 @@
 		},
 	};
 </script>
+
+<style scoped>
+header{
+    border-bottom: 2px solid #009393;
+}
+</style>
