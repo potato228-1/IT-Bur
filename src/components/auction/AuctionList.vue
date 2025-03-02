@@ -2,7 +2,6 @@
 	<section class="bg-body-tertiary">
 		<div class="py-5 container">
 			<div class="py-5">
-				<h2 class="text-center mx-auto">Список проектов</h2>
 				<div class="row row-cols-1 row-cols-md-3 g-4">
 					<AuctionItem
 						v-for="(item, index) in list"
@@ -28,20 +27,5 @@
 		props: {
 			list: {},
 		},
-
-		methods: {
-			
-		},
-
-		computed: {
-			abc(){
-                let a = list
-			console.log(this.list)
-            }
-		},
-
-        mounted(){
-            
-        }
 	};
 </script>
