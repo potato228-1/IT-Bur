@@ -45,8 +45,6 @@
 </template>
 
 <script>
-	import axios from "axios";
-
 	export default {
 		name: "ProjectItem",
 
@@ -96,9 +94,5 @@
 				markLoaded: 0,
 			};
 		},
-
-        mounted(){
-            console.log(item)
-        }
 	};
 </script>
