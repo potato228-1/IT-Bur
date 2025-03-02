@@ -1,7 +1,7 @@
 <template>
 	<section>
-		<div class="py-5 container">
-			<div class="py-5">
+		<div class="container">
+			<div>
 				<div class="row row-cols-1 row-cols-md-3 g-4">
 					<AuctionItem
 						v-for="(item, index) in list"
