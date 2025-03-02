@@ -2,7 +2,7 @@
 	<section>
 		<div class="container">
 			<div>
-				<div class="row row-cols-1 row-cols-md-3 g-4">
+				<div class="row row-cols-1 row-cols-md-2 g-4">
 					<AuctionItem
 						v-for="(item, index) in list"
 						:key="index"

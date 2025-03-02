@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="list__wrapper">
 		<AuctionList :list="auctionList" />
 	</div>
 </template>
@@ -41,24 +41,29 @@
 			// 	console.log(data);
 			// },
 
-			async api_test() {
-				const res = await axios.get(
-					"https://webcomp.bsu.ru/api/2025/userBids",
-					{
-						headers: {
-							Authorization: `Bearer ${this.$store.getters.getToken}`,
-						},
-					}
-				);
-				const data = res.data.data;
-				console.log(data);
-			},
+			// async api_test() {
+			// 	const res = await axios.get(
+			// 		"https://webcomp.bsu.ru/api/2025/userBids",
+			// 		{
+			// 			headers: {
+			// 				Authorization: `Bearer ${this.$store.getters.getToken}`,
+			// 			},
+			// 		}
+			// 	);
+			// 	const data = res.data.data;
+			// 	console.log(data);
+			// },
 		},
 
 		mounted() {
-			console.log(this.$store.getters.getToken);
 			this.getProjects();
-			this.api_test();
+			// this.api_test();
 		},
 	};
 </script>
+
+<style>
+.list__wrapper{
+    padding: 30px 0;
+}
+</style>
