@@ -14,25 +14,45 @@
     </div>
 
     <div v-else>
-      <h3 class="mb-4">Ваши последние 5 ставок:</h3>
+      <AuctionList :list="auctionList" />
       <router-link to="/auction" class="btn btn-success">Посмотреть аукцион</router-link>
     </div>
   </div>
 </template>
 
 <script>
-import { reactive, toRefs } from 'vue'
+import { reactive, toRefs } from 'vue';
+import axios from "axios";
 import store from '@/store';
+import AuctionList from "@/components/auction/AuctionList.vue";
 
 export default {
+  components: {
+    AuctionList,
+  },
   setup() {
     const state = reactive({
-      isAuthenticated: store.getters.getLogged
-    })
+      isAuthenticated: store.getters.getLogged,
+      auctionList: [],
+    });
+
+    const getProjects = async () => {
+      const res = await axios.get("https://webcomp.bsu.ru/api/2025/allBids");
+      const data = await res.data.data;
+
+      state.auctionList = data
+        .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at))
+        .slice(0, 5);
+    };
+
+    getProjects();
 
     return {
       ...toRefs(state),
-    }
-  }
-}
+    };
+  },
+};
 </script>
+
+<style lang="scss" scoped>
+</style>

@@ -72,7 +72,7 @@
   
 <style scoped>
   header {
-	border-bottom: 2px solid #009393;
+	border-bottom: 2px solid #4169E1;
   }
 
 
