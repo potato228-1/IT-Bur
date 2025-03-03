@@ -12,53 +12,37 @@
 
 		<div v-if="!isAuthenticated">
 			<img src="/img/banner.jpg" alt="Баннер" class="img-fluid mb-4" />
-			<p class="lead">
+			<p class="lead mb-4"> 
 				Пожалуйста, войдите, чтобы участвовать в аукционе.
 			</p>
-			<router-link to="/login" class="btn btn-primary">Войти</router-link>
+			<router-link to="/login" class="btn btn-primary mb-4">Войти</router-link>
 		</div>
 
 		<div v-else>
-      <h2>Последние ставки:</h2>
-			<AuctionList :list="auctionList" />
-			<router-link to="/auction" class="btn btn-success mt-3"
-				>Посмотреть аукцион</router-link
-			>
+			<h2 class="mb-4">Последние ставки:</h2> 
+			<BidsList class="mb-4"/> 
+			<router-link to="/auction" class="btn btn-success mt-3">Посмотреть аукцион</router-link>
 		</div>
 	</div>
 </template>
 
+
 <script>
 	import { reactive, toRefs } from "vue";
-	import axios from "axios";
 	import store from "@/store";
-	import AuctionList from "@/components/auction/AuctionList.vue";
+	import BidsList from "@/components/auction/BidsList.vue";
 
 	export default {
 		components: {
-			AuctionList,
+			BidsList,
 		},
 		setup() {
 			const state = reactive({
 				isAuthenticated: store.getters.getLogged,
-				auctionList: [],
+				
 			});
+		
 
-			const getProjects = async () => {
-				const res = await axios.get(
-					"https://webcomp.bsu.ru/api/allProjects"
-				);
-				const data = await res.data.data;
-
-				state.auctionList = data
-					.sort(
-						(a, b) =>
-							new Date(b.updated_at) - new Date(a.updated_at)
-					)
-					.slice(0, 5);
-			};
-
-			getProjects();
 
 			return {
 				...toRefs(state),
