@@ -1,92 +1,99 @@
 <template>
-	<div class="item-wrapper">
-		<div class="col">
-			<div class="card h-100">
-				<div class="project-img">
-					<img
-						:src="getImgPath(imgSrc)"
-						class="card-img-top"
-						alt="Project"
-					/>
-				</div>
-				<div class="card-body">
-					<h5 class="card-title">{{ title }}</h5>
-					<p class="card-text">{{ content }}</p>
-				</div>
-				<div class="my-3 px-3">
-					<span
-						class="badge bg-info"
-						v-for="(item, index) in getTags(tags)"
-						:key="index"
-					>
-						{{ item }}
-                    </span>
-                    &nbsp;&nbsp;
-				</div>
-				<div class="my-3 px-3">
-					<div class="row">
-						<div class="col-5">
-							<router-link
-								to="#"
-								class="text-decoration-none text-success"
-							>
-								Ставки
-							</router-link>
-						</div>
+	<router-link :to="`auction/project/${this.projectId}`">
+		<div class="item-wrapper">
+			<div class="col container-fluid">
+				<div class="card">
+					<div class="project-img">
+						<img
+							:src="getImgPath(imgSrc)"
+							class="card-img-top"
+							alt="Project"
+						/>
+					</div>
+					<div class="card-body">
+						<h5 class="card-title">{{ title }}</h5>
+						<p class="card-text">{{ content }}</p>
+					</div>
+					<div class="my-3 px-3">
+						<span
+							class="badge bg-info"
+							v-for="(item, index) in getTags(tags)"
+							:key="index"
+						>
+							{{ item }}
+						</span>
+						&nbsp;&nbsp;
 					</div>
 				</div>
 			</div>
-		</div>
 
-		<div class="bids-section">
-			<h4 class="text-center">Топ ставок</h4>
-            
-			<table class="table table-sm table-bordered first-place">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Ставка</th>
-                        <th>Кто поставил</th>
-                    </tr>
-                </thead>
+			<div class="bids-section">
+				<div class="bids__wrapper">
+					<h4 class="text-center">
+                        {{ bidsList.length ? "Топ ставок" : "Ставок пока нет" }}
+                    </h4>
 
-			    <tbody>
-			        <tr v-for="(bid, index) in topBids" :key="bid.id" :class="index + 1 == 1 ? 'first-place' : null">
-                            <td>{{ index + 1 }}</td>
-    
-                            <td>{{ bid.amount }} ₽</td>
-    
-                            <td>{{ bid.author.user_name }}</td>
-    
-                        <!-- <div class="bid__date">
-                            {{ new Date(bid.updated_at).toLocaleString() }}
-                        </div> -->
-        			</tr>
-			    </tbody>
-			</table>
+					<table
+						class="table table-bordered container-fluid"
+                        v-if="bidsList.length"
+					>
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>Ставка</th>
+								<th>Кто поставил</th>
+							</tr>
+						</thead>
+
+						<tbody>
+							<tr
+								v-for="(bid, index) in topBids"
+								:key="bid.id"
+							>
+								<td>{{ index + 1 }}</td>
+
+								<td>{{ bid.amount }} ₽</td>
+
+								<td>{{ bid.author.user_name }}</td>
+
+								<!-- <div class="bid__date">
+                                {{ new Date(bid.updated_at).toLocaleString() }}
+                            </div> -->
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
 		</div>
-	</div>
+	</router-link>
 </template>
 
-<style>
+<style scoped>
+	* {
+		text-decoration: none;
+	}
+
 	.item-wrapper {
+		width: 100%;
+
 		display: flex;
+		justify-content: space-between;
 	}
 
 	.bids-section {
 		padding: 0 10px;
-	}
+		width: 50%;
 
-    .first-place{
-        background-color: gold !important;
-    }
+        display: flex;
+        flex-direction: column;
+	}
 </style>
 
 <script>
 	import axios from "axios";
 
 	export default {
-		name: "ProjectItem",
+		name: "AuctionItem",
 
 		props: {
 			item: {},
@@ -100,19 +107,6 @@
 			getTags(tags) {
 				return tags.split(",");
 			},
-
-			// async getBids(id) {
-			// 	try {
-			// 		const response = await axios.get(
-			// 			`https://webcomp.bsu.ru/api/2025/project_bids/${id}`
-			// 		);
-			// 		const data = response?.data?.data;
-			//         this.bidsList = data
-			//         console.log(this.bidsList)
-			// 	} catch (error) {
-			// 		console.error("Error fetch project bids : ", error);
-			// 	}
-			// },
 
 			async getBids(id, retries = 3, delay = 1000) {
 				for (let attempt = 1; attempt <= retries; attempt++) {
@@ -133,7 +127,6 @@
 						}
 					}
 				}
-				console.log(this.bidsList);
 			},
 		},
 
@@ -164,7 +157,6 @@
 				const result = [...this.bidsList]
 					.sort((a, b) => a.amount < b.amount)
 					.slice(0, 3);
-				console.log(result);
 				return result;
 			},
 		},
