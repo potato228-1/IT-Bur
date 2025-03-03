@@ -65,15 +65,22 @@
 	  toggleTheme() {
 		this.theme = this.theme === 'light' ? 'dark' : 'light';
 		document.documentElement.setAttribute('data-bs-theme', this.theme);
+		localStorage.setItem('theme', this.theme);
 	  },
+	},
+	mounted() {
+	  const savedTheme = localStorage.getItem('theme');
+	  if (savedTheme) {
+		this.theme = savedTheme;
+		document.documentElement.setAttribute('data-bs-theme', this.theme);
+	  }
 	},
   };
   </script>
   
-<style scoped>
+  <style scoped>
   header {
 	border-bottom: 2px solid #4169E1;
   }
-
-
-</style>
+  </style>
+  

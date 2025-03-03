@@ -19,8 +19,9 @@
 		</div>
 
 		<div v-else>
+      <h2>Последние ставки:</h2>
 			<AuctionList :list="auctionList" />
-			<router-link to="/auction" class="btn btn-success"
+			<router-link to="/auction" class="btn btn-success mt-3"
 				>Посмотреть аукцион</router-link
 			>
 		</div>
