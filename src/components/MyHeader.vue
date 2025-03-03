@@ -23,8 +23,7 @@
 							<router-link
 								:to="{ path: item.link }"
 								class="nav-link px-2 text-white"
-								>{{ item.title }}</router-link
-							>
+							>{{ item.title }}</router-link>
 						</li>
 						<li
 							v-if="is_logged"
@@ -34,8 +33,7 @@
 							<router-link
 								:to="{ path: item.link }"
 								class="nav-link px-2 text-white"
-								>{{ item.title }}</router-link
-							>
+							>{{ item.title }}</router-link>
 						</li>
 					</ul>
 					<div class="text-end">
@@ -61,61 +59,71 @@
 			</div>
 		</header>
 	</div>
-  </template>
-  
-  <script>
-  export default {
+</template>
+
+<script>
+export default {
 	name: "MyHeader",
 	data() {
-	  return {
-		theme: 'light',
-		menuItems: [
-		  { link: "/", title: "Главная" },
-		  { link: "/about", title: "О нас" },
-		  { link: "/projectsList", title: "Список проектов" },
-		  { link: "/contacts", title: "Контакты" },
-		  { link: "/Auction/Promo", title: "Аукцион" },
-		],
-		privateLinks: [
-		  { link: "/admin", title: "Личный кабинет" },
-		  { link: "/admin/adminMarks", title: "Оценки" },
-		],
-	  };
+		return {
+			theme: 'light',
+			menuItems: [
+				{ link: "/", title: "Главная" },
+				{ link: "/about", title: "О нас" },
+				{ link: "/projectsList", title: "Список проектов" },
+				{ link: "/contacts", title: "Контакты" },
+				{ link: "/Auction/Promo", title: "Аукцион" },
+			],
+			privateLinks: [
+				{ link: "/admin", title: "Личный кабинет" },
+				{ link: "/admin/adminMarks", title: "Оценки" },
+			],
+		};
 	},
 	computed: {
-	  is_logged() {
-		return this.$store.getters.getLogged;
-	  },
+		is_logged() {
+			return this.$store.getters.getLogged;
+		},
 	},
 	methods: {
-	  loginButtonHandler() {
-		if (this.is_logged) {
-		  this.$store.dispatch("logout").then(() => {
-			this.$router.push({ path: "/" });
-		  });
-		} else {
-		  this.$router.push("/login");
-		}
-	  },
-	  toggleTheme() {
-		this.theme = this.theme === 'light' ? 'dark' : 'light';
-		document.documentElement.setAttribute('data-bs-theme', this.theme);
-		localStorage.setItem('theme', this.theme);
-	  },
+		loginButtonHandler() {
+			if (this.is_logged) {
+				this.$store.dispatch("logout").then(() => {
+					this.$router.push({ path: "/" });
+				});
+			} else {
+				this.$router.push("/login");
+			}
+		},
+		toggleTheme() {
+			this.theme = this.theme === 'light' ? 'dark' : 'light';
+			document.documentElement.setAttribute('data-bs-theme', this.theme);
+			localStorage.setItem('theme', this.theme);
+		},
 	},
 	mounted() {
-	  const savedTheme = localStorage.getItem('theme');
-	  if (savedTheme) {
-		this.theme = savedTheme;
-		document.documentElement.setAttribute('data-bs-theme', this.theme);
-	  }
+		const savedTheme = localStorage.getItem('theme');
+		if (savedTheme) {
+			this.theme = savedTheme;
+			document.documentElement.setAttribute('data-bs-theme', this.theme);
+		}
 	},
-  };
-  </script>
-  
-  <style scoped>
-  header {
+};
+</script>
+
+<style scoped>
+header {
 	border-bottom: 2px solid #4169E1;
-  }
-  </style>
-  
+}
+
+.nav-link {
+	transition: color 0.3s; 
+	
+}
+
+.nav-link:hover {
+	color: #4299e1 !important;
+	scale: 1.1;
+}
+
+</style>
