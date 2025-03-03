@@ -1,4 +1,4 @@
-import * as VueRouter from "vue-router";
+import { createRouter, createWebHistory } from "vue-router";
 
 import store from "@/store";
 
@@ -12,11 +12,14 @@ import MyLayout from "./pages/MyLayout.vue";
 import AdminCabinet from "./pages/admin/AdminCabinet.vue";
 import AdminMarks from "./pages/admin/AdminMarks.vue";
 import EditProfile from "./pages/admin/EditProfile.vue";
+
+// Auction pages
 import AuctionPage from "./pages/auction/AuctionPage.vue";
 import AuctionPromo from "./pages/auction/AuctionPromo.vue";
+import AuctionProjectPage from "./pages/auction/AuctionProjectPage.vue";
 
-export default VueRouter.createRouter({
-	history: VueRouter.createWebHistory(),
+export const router = createRouter({
+	history: createWebHistory(),
 	routes: [
 		{
 			path: "/",
@@ -49,6 +52,11 @@ export default VueRouter.createRouter({
 					component: ProjectsListPage,
 				},
 				{
+					path: "/auction/promo",
+					name: "auctionPromo",
+					component: AuctionPromo,
+				},
+				{
 					path: "/auction",
 					name: "auctionPage",
 					component: AuctionPage,
@@ -60,11 +68,18 @@ export default VueRouter.createRouter({
 						}
 					},
 				},
-				{
-					path: "/auction/promo",
-					name: "auctionPromo",
-					component: AuctionPromo,
-				},
+                {
+                    path: "/auction/project/:id",
+                    name: "auctionProject",
+                    component: AuctionProjectPage,
+					beforeEnter: (to, from, next) => {
+						if (!store.getters.getLogged) {
+							next({ path: "/auction/promo" });
+						} else {
+							next();
+						}
+					},
+                },
 			],
 		},
 		{

@@ -22,42 +22,15 @@
 		methods: {
 			async getProjects() {
 				const res = await axios.get(
-					"https://webcomp.bsu.ru/api/2025/allBids"
+					"https://webcomp.bsu.ru/api/allProjects"
 				);
 				const data = await res.data.data;
 				this.auctionList = data;
 			},
-
-			// async api_test() {
-			// 	const res = await axios.get(
-			// 		"https://webcomp.bsu.ru/api/2025/userBids",
-			// 		{
-			// 			headers: {
-			// 				Authorization: `Bearer ${this.$store.getters.getToken}`,
-			// 			},
-			// 		}
-			// 	);
-			// 	const data = res.data.data;
-			// 	console.log(data);
-			// },
-
-			// async api_test() {
-			// 	const res = await axios.get(
-			// 		"https://webcomp.bsu.ru/api/2025/userBids",
-			// 		{
-			// 			headers: {
-			// 				Authorization: `Bearer ${this.$store.getters.getToken}`,
-			// 			},
-			// 		}
-			// 	);
-			// 	const data = res.data.data;
-			// 	console.log(data);
-			// },
 		},
 
 		mounted() {
 			this.getProjects();
-			// this.api_test();
 		},
 	};
 </script>
