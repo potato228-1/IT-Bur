@@ -55,10 +55,6 @@
 								<td>{{ bid.amount }} ₽</td>
 
 								<td>{{ bid.author.user_name }}</td>
-
-								<!-- <div class="bid__date">
-                                {{ new Date(bid.updated_at).toLocaleString() }}
-                            </div> -->
 							</tr>
 						</tbody>
 					</table>

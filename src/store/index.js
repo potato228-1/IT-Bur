@@ -1,6 +1,12 @@
 import { createStore } from "vuex";
-import loginInfo from "./loginInfo";
+
+// Modules
+import { loginInfo } from "./modules/loginInfo";
+import { userData } from "./modules/userData";
 
 export default createStore({
-	modules: { loginInfo },
+	modules: {
+		loginInfo,
+		userData,
+	},
 });

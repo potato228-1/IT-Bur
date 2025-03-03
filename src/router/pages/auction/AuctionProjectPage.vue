@@ -21,6 +21,7 @@
 				<div class="col-8">
 					<h2>Описание проекта</h2>
 					<p>{{ item.description }}</p>
+
 					<h2>Актуальность проекта</h2>
 					<p>{{ item.relevance }}</p>
 				</div>
@@ -29,7 +30,12 @@
 
 		<div class="bids-container container">
             <div class="bid-form__container">
-                <form action="#" class="bid-form"></form>
+                <form action="#" class="bid-form mb-3">
+                    <h5>
+                        Сделать ставку :
+                    </h5>
+                    <input type="number" v-model="bidFormData.amount" class="form-control">
+                </form>
             </div>
 
 			<div class="bids__wrapper">
@@ -80,6 +86,9 @@
 				},
 
 				bidsList: [],
+                bidFormData: {
+                    amount: null,
+                },
 			};
 		},
 
@@ -145,6 +154,11 @@
 			if (this.id) {
 				this.getBids(this.id);
 			}
+
+            this.$store.dispatch("fetchUserData")
+
+            setTimeout(() => console.log(this.$store.getters.getUser), 5000)
+            
 		},
 	};
 </script>

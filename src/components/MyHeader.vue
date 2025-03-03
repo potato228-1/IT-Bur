@@ -117,8 +117,7 @@ header {
 }
 
 .nav-link {
-	transition: color 0.3s; 
-	
+	transition: all 0.3s; 
 }
 
 .nav-link:hover {

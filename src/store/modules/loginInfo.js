@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export default {
+export const loginInfo = {
 	state() {
 		return {
 			isLogged: localStorage.getItem("is-logged"),
