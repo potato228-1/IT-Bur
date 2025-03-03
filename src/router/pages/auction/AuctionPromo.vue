@@ -46,7 +46,7 @@
 
 			const getProjects = async () => {
 				const res = await axios.get(
-					"https://webcomp.bsu.ru/api/2025/allBids"
+					"https://webcomp.bsu.ru/api/allProjects"
 				);
 				const data = await res.data.data;
 

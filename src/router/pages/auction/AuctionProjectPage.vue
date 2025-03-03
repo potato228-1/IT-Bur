@@ -28,6 +28,10 @@
 		</div>
 
 		<div class="bids-container container">
+            <div class="bid-form__container">
+                
+            </div>
+
 			<div class="bids__wrapper">
 				<h4 class="text-center">
 					{{ bidsList.length ? "Все ставки" : "Ставок пока нет" }}
