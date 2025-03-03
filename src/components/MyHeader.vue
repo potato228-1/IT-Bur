@@ -7,7 +7,7 @@
 				>
 					<router-link
 						to="/"
-						class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none"
+						class="logo d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none"
 					>
 						<img
 							src="/img/BSU_logo.svg"
@@ -125,5 +125,13 @@ header {
 	color: #4299e1 !important;
 	scale: 1.1;
 }
+
+.logo {
+	transition: transform 0.3s ease;
+  }
+  
+.logo:hover {
+	transform: rotate(15deg) scale(1.1);
+  }
 
 </style>
