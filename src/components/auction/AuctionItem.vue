@@ -1,5 +1,5 @@
 <template>
-	<router-link :to="`auction/project/${this.projectId}`">
+	<router-link :to="`/auction/project/${this.projectId}`">
 		<div class="item-wrapper">
 			<div class="col container-fluid">
 				<div class="card">

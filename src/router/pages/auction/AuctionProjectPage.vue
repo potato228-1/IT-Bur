@@ -29,7 +29,7 @@
 
 		<div class="bids-container container">
             <div class="bid-form__container">
-                
+                <form action="#" class="bid-form"></form>
             </div>
 
 			<div class="bids__wrapper">
