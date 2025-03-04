@@ -1,54 +1,80 @@
 <template>
-	<div class="container text-center mt-3">
-		<h2 class="mb-4">
-			Уважаемые посетители, вы можете поучаствовать в аукционе проектов.
-			Для этого пройдите по ссылке ниже.
-			<br />
-			<strong
-				>Внимание: участие только для авторизованных
-				пользователей.</strong
-			>
-		</h2>
-
-		<div v-if="!isAuthenticated">
-			<img src="/img/banner.jpg" alt="Баннер" class="img-fluid mb-4" />
-			<p class="lead mb-4"> 
-				Пожалуйста, войдите, чтобы участвовать в аукционе.
-			</p>
-			<router-link to="/login" class="btn btn-primary mb-4">Войти</router-link>
-		</div>
-
-		<div v-else>
-			<h2 class="mb-4">Последние ставки:</h2> 
-			<BidsList class="mb-4"/> 
-			<router-link to="/auction" class="btn btn-success mt-3">Посмотреть аукцион</router-link>
-		</div>
+	<div id="preloader">
+	  <div id="loader"></div>
 	</div>
-</template>
+	</template>
+	<style>
 
-
-<script>
-	import { reactive, toRefs } from "vue";
-	import store from "@/store";
-	import BidsList from "@/components/auction/BidsList.vue";
-
-	export default {
-		components: {
-			BidsList,
-		},
-		setup() {
-			const state = reactive({
-				isAuthenticated: store.getters.getLogged,
-				
-			});
-		
-
-
-			return {
-				...toRefs(state),
-			};
-		},
-	};
-</script>
-
-<style lang="scss" scoped></style>
+	#preloader {
+	  position: fixed;
+	  top: 0;
+	  left: 0;
+	  width: 100%;
+	  height: 100%;
+	}
+	#loader {
+	  display: block;
+	  position: relative;
+	  left: 50%;
+	  top: 50%;
+	  width: 150px;
+	  height: 150px;
+	  margin: -75px 0 0 -75px;
+	  border-radius: 50%;
+	  border: 3px solid transparent;
+	  border-top-color: #4299e1;
+	  -webkit-animation: spin 2s linear infinite;
+	  animation: spin 2s linear infinite;
+	}
+	#loader:before {
+	  content: "";
+	  position: absolute;
+	  top: 5px;
+	  left: 5px;
+	  right: 5px;
+	  bottom: 5px;
+	  border-radius: 50%;
+	  border: 3px solid transparent;
+	  border-top-color: #0089fa;
+	  -webkit-animation: spin 3s linear infinite;
+	  animation: spin 3s linear infinite;
+	}
+	#loader:after {
+	  content: "";
+	  position: absolute;
+	  top: 15px;
+	  left: 15px;
+	  right: 15px;
+	  bottom: 15px;
+	  border-radius: 50%;
+	  border: 3px solid transparent;
+	  border-top-color: #4299e1;
+	  -webkit-animation: spin 1.5s linear infinite;
+	  animation: spin 1.5s linear infinite;
+	}
+	@-webkit-keyframes spin {
+	  0% {
+		-webkit-transform: rotate(0deg);
+		-ms-transform: rotate(0deg);
+		transform: rotate(0deg);
+	  }
+	  100% {
+		-webkit-transform: rotate(360deg);
+		-ms-transform: rotate(360deg);
+		transform: rotate(360deg);
+	  }
+	}
+	@keyframes spin {
+	  0% {
+		-webkit-transform: rotate(0deg);
+		-ms-transform: rotate(0deg);
+		transform: rotate(0deg);
+	  }
+	  100% {
+		-webkit-transform: rotate(360deg);
+		-ms-transform: rotate(360deg);
+		transform: rotate(360deg);
+	  }
+	}
+	
+	</style>
