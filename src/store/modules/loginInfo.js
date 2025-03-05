@@ -7,6 +7,7 @@ export const loginInfo = {
 			token: localStorage.getItem("my-token"),
 		};
 	},
+
 	getters: {
 		getLogged(state) {
 			let logged = true;
@@ -19,6 +20,7 @@ export const loginInfo = {
 			return state.token;
 		},
 	},
+
 	mutations: {
 		SET_LOGGED(state, payload) {
 			if (payload.isLogged) {
@@ -34,6 +36,7 @@ export const loginInfo = {
 			}
 		},
 	},
+
 	actions: {
 		login({ commit }, payload) {
 			return new Promise((resolve, reject) => {

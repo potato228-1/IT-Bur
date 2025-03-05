@@ -29,14 +29,25 @@
 		</div>
 
 		<div class="bids-container container">
-            <div class="bid-form__container">
-                <form action="#" class="bid-form mb-3">
-                    <h5>
-                        Сделать ставку :
-                    </h5>
-                    <input type="number" v-model="bidFormData.amount" class="form-control">
-                </form>
-            </div>
+			<div class="bid-form__container">
+				<form class="bid-form mb-3" @submit.prevent="addBid">
+					<h5>Сделать ставку :</h5>
+
+					<input
+						type="number"
+						v-model="bidFormData.amount"
+						class="form-control"
+					/>
+
+					<button
+						type="submit"
+						:disabled="!bidFormData.amount"
+						class="btn btn-primary"
+					>
+						Отправить
+					</button>
+				</form>
+			</div>
 
 			<div class="bids__wrapper">
 				<h4 class="text-center">
@@ -54,8 +65,23 @@
 					</thead>
 
 					<tbody>
-						<tr v-for="(bid, index) in allBids" :key="bid.id">
-							<td>{{ index + 1 }}</td>
+						<tr
+							v-for="(bid, index) in projectBids"
+							:key="bid.id"
+							:class="`
+                                ${index + 1 == 1 ? 'first-place' : ''}
+                                ${index + 1 == 2 ? 'second-place' : ''}
+                                ${index + 1 == 3 ? 'third-place' : ''}
+                                ${
+									bid.author.user_id == userData.user_id
+										? 'user-bid'
+										: ''
+								}
+                            `"
+						>
+							<td>
+								{{ index + 1 }}
+							</td>
 
 							<td>{{ bid.amount }} ₽</td>
 
@@ -71,11 +97,38 @@
 		</div>
 	</div>
 </template>
+
+<style scoped>
+	.first-place {
+		--bs-table-bg: gold !important;
+	}
+	.second-place {
+		--bs-table-bg: silver !important;
+	}
+	.third-place {
+		--bs-table-bg: #cd7f32 !important;
+	}
+
+	.user-bid {
+        border: 3px solid #4169e1 !important;
+	}
+</style>
+
 <script>
 	import axios from "axios";
 
 	export default {
 		name: "AuctionProjectPage",
+
+		components: {},
+
+		created() {
+			const record_id = this.$route.params.id;
+			if (record_id) {
+				this.id = record_id;
+				this.getProject(record_id);
+			}
+		},
 
 		data() {
 			return {
@@ -86,27 +139,11 @@
 				},
 
 				bidsList: [],
-                bidFormData: {
-                    amount: null,
-                },
+				bidFormData: {
+					amount: null,
+					project_id: this.id,
+				},
 			};
-		},
-
-		created() {
-			const record_id = this.$route.params.id;
-			if (record_id) {
-				this.id = record_id;
-				this.getProject(record_id);
-			}
-		},
-
-		computed: {
-			allBids() {
-				const result = [...this.bidsList].sort(
-					(a, b) => a.amount < b.amount
-				);
-				return result;
-			},
 		},
 
 		methods: {
@@ -148,17 +185,64 @@
 					}
 				}
 			},
+
+			async addBid() {
+				try {
+					const amountConflict = this.projectBids.find(
+						(bid) => bid.amount == this.bidFormData.amount
+					);
+					if (this.userData.wallet >= this.bidFormData.amount) {
+						if (!amountConflict) {
+							const request = await axios.put(
+								"https://webcomp.bsu.ru/api/2025/bids/add",
+								{
+									amount: this.bidFormData.amount,
+									project_id: this.id,
+								},
+								{
+									headers: {
+										Authorization: `Bearer ${this.$store.getters.getToken}`,
+									},
+								}
+							);
+							this.bidFormData.amount = null;
+							this.getBids(this.id);
+						} else {
+							alert(
+								"Уже существует ставка с точно такой же суммой"
+							);
+						}
+					} else {
+						alert("Недостаточно средств");
+					}
+				} catch (error) {
+					console.error("Error sending bid : ", error);
+				}
+			},
+		},
+
+		computed: {
+			projectBids() {
+				const result = [...this.bidsList].sort(
+					(a, b) => a.amount < b.amount
+				);
+				return result;
+			},
+
+			userBids() {
+				const userBids = this.$store.getters.getUserBids;
+				return userBids;
+			},
+
+			userData() {
+				return this.$store.getters.getUser;
+			},
 		},
 
 		mounted() {
 			if (this.id) {
 				this.getBids(this.id);
 			}
-
-            this.$store.dispatch("fetchUserData")
-
-            setTimeout(() => console.log(this.$store.getters.getUser), 5000)
-            
 		},
 	};
 </script>

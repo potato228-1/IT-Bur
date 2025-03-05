@@ -7,7 +7,10 @@
 
 export default {
 	name: 'App',
-	components: {    
-	}
+	
+    created(){
+        this.$store.dispatch("fetchUserBids")
+        this.$store.dispatch("fetchUserData")
+    },
 }
 </script>
