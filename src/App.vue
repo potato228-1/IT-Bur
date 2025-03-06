@@ -9,8 +9,10 @@ export default {
 	name: 'App',
 	
     created(){
-        this.$store.dispatch("fetchUserBids")
-        this.$store.dispatch("fetchUserData")
+        if(this.$store.getters.getToken){
+            this.$store.dispatch("fetchUserBids")
+            this.$store.dispatch("fetchUserData")
+        }
     },
 }
 </script>

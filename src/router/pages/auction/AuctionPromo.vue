@@ -11,21 +11,23 @@
 		</h2>
 
 		<div v-if="!isAuthenticated">
-			<img src="/img/banner.jpg" alt="Баннер" class="img-fluid mb-4" />
-			<p class="lead mb-4"> 
+			<p class="lead mb-4">
 				Пожалуйста, войдите, чтобы участвовать в аукционе.
 			</p>
-			<router-link to="/login" class="btn btn-primary mb-4">Войти</router-link>
+			<router-link to="/login" class="btn btn-primary mb-4"
+				>Войти</router-link
+			>
 		</div>
 
 		<div v-else>
-			<h2 class="mb-4">Последние ставки:</h2> 
-			<BidsList class="mb-4"/> 
-			<router-link to="/auction" class="btn btn-success mt-3">Посмотреть аукцион</router-link>
+			<h2 class="mb-4">Последние ставки:</h2>
+			<BidsList class="mb-4" />
+			<router-link to="/auction" class="btn btn-success mt-3"
+				>Посмотреть аукцион</router-link
+			>
 		</div>
 	</div>
 </template>
-
 
 <script>
 	import { reactive, toRefs } from "vue";
@@ -39,10 +41,7 @@
 		setup() {
 			const state = reactive({
 				isAuthenticated: store.getters.getLogged,
-				
 			});
-		
-
 
 			return {
 				...toRefs(state),

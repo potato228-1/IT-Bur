@@ -5,7 +5,7 @@ export const userData = {
 	state() {
 		return {
 			user: {
-                wallet: 100,
+                // wallet: 100000,
             },
 		};
 	},
@@ -24,16 +24,20 @@ export const userData = {
 
 	actions: {
 		async fetchUserData({ commit }) {
-			const response = await axios.get(
-				"https://webcomp.bsu.ru/api/userData",
-				{
-					headers: {
-						Authorization: `Bearer ${store.getters.getToken}`,
-					},
-				}
-			);
-			const data = response.data.data;
-			commit("setUser", data);
+            try {
+                const response = await axios.get(
+                    "https://webcomp.bsu.ru/api/userData",
+                    {
+                        headers: {
+                            Authorization: `Bearer ${store.getters.getToken}`,
+                        },
+                    }
+                );
+                const data = response.data.data;
+                commit("setUser", data);
+            } catch(error){
+                console.error("Error fetching user data : ", error)
+            }
 		},
 	},
 };

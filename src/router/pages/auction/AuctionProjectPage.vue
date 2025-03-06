@@ -30,12 +30,12 @@
 
 		<div class="bids-container container">
 			<div class="bid-form__container">
-				<form class="bid-form mb-3" @submit.prevent="addBid">
+				<form class="bid-form mb-3" @submit.prevent="addBidHandler">
 					<h5>Сделать ставку :</h5>
 
 					<input
 						type="number"
-						v-model="bidFormData.amount"
+						v-model.number="bidFormData.amount"
 						class="form-control"
 					/>
 
@@ -83,7 +83,9 @@
 								{{ index + 1 }}
 							</td>
 
-							<td>{{ bid.amount }} ₽</td>
+							<td>
+								{{ formattedPrice(parseFloat(bid.amount)) }}
+							</td>
 
 							<td>{{ bid.author.user_name }}</td>
 
@@ -110,7 +112,7 @@
 	}
 
 	.user-bid {
-        border: 3px solid #4169e1 !important;
+		border: 3px solid #4169e1 !important;
 	}
 </style>
 
@@ -186,38 +188,63 @@
 				}
 			},
 
-			async addBid() {
-				try {
-					const amountConflict = this.projectBids.find(
-						(bid) => bid.amount == this.bidFormData.amount
-					);
-					if (this.userData.wallet >= this.bidFormData.amount) {
+			addBid() {
+				axios
+					.put(
+						"https://webcomp.bsu.ru/api/2025/bids/add",
+						{
+							amount: this.bidFormData.amount,
+							project_id: this.id,
+						},
+						{
+							headers: {
+								Authorization: `Bearer ${this.$store.getters.getToken}`,
+							},
+						}
+					)
+					.then((response) => {
+						this.getBids(this.id);
+						this.bidFormData.amount = null;
+					})
+					.catch((error) => {
+						console.error("Error sending bid : ", error);
+					});
+			},
+
+			addBidHandler() {
+				const amountConflict = this.projectBids.find(
+					(bid) => bid.amount == this.bidFormData.amount
+				);
+
+				// if (this.userData.wallet >= this.bidFormData.amount) {
+					if (this.bidFormData.amount <= this.userMaxBid) {
+						alert(
+							"Ставка может только расти и не может быть меньше или равной вашей максимальной"
+						);
+					} else {
 						if (!amountConflict) {
-							const request = await axios.put(
-								"https://webcomp.bsu.ru/api/2025/bids/add",
-								{
-									amount: this.bidFormData.amount,
-									project_id: this.id,
-								},
-								{
-									headers: {
-										Authorization: `Bearer ${this.$store.getters.getToken}`,
-									},
-								}
-							);
-							this.bidFormData.amount = null;
-							this.getBids(this.id);
-						} else {
+							// this.addBid();
+							alert("Bid added");
+						} else
 							alert(
 								"Уже существует ставка с точно такой же суммой"
 							);
-						}
-					} else {
-						alert("Недостаточно средств");
 					}
-				} catch (error) {
-					console.error("Error sending bid : ", error);
-				}
+				// } else {
+				// 	alert("Недостаточно средств");
+				// }
+			},
+
+			formattedPrice(num) {
+				if (typeof num == "number") {
+					const result = new Intl.NumberFormat("ru-RU", {
+						style: "currency",
+						currency: "RUB",
+						minimumFractionDigits: 0,
+					}).format(num);
+
+					return result;
+                } else return num
 			},
 		},
 
@@ -236,6 +263,16 @@
 
 			userData() {
 				return this.$store.getters.getUser;
+			},
+
+			userMaxBid() {
+				if (this.userBids.length) {
+					const maxBid = this.userBids.reduce(
+						(max, item) => (item.amount > max.amount ? item : max),
+						this.userBids[0]
+					);
+					return maxBid.amount;
+				} else return;
 			},
 		},
 

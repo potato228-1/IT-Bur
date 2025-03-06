@@ -1,4 +1,5 @@
 import axios from "axios";
+import store from "@/store"
 
 export const loginInfo = {
 	state() {
@@ -61,6 +62,8 @@ export const loginInfo = {
 							token: result["data"],
 						});
 						resolve(result);
+                        store.dispatch("fetchUserBids")
+                        store.dispatch("fetchUserData")
 					})
 					.catch(function (error) {
 						commit("SET_LOGGED", { isLogged: false, token: "" });
